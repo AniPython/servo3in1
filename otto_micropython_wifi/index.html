@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Otto</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            overflow-y: scroll;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 20px;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 100%;
+            margin: 30px;
+        }
+
+        .right {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* grid-template-rows: repeat(3, 1fr); */
+            gap: 5px;
+            margin: 30px;
+        }
+
+        .top-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .middle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bottom-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            margin: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .left .button {
+            width: 100px;
+            height: 100px;
+            font-size: 50px;
+        }
+
+        .right .button {
+            width: 220px;
+            height: 100px;
+            font-size: 26px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="button direction" id="forward">▴</div>
+            <div class="middle-row">
+                <div class="button direction" id="turn_left">◂</div>
+                <div class="button direction" id="home">•</div>
+                <div class="button direction" id="turn_right">▸</div>
+            </div>
+            <div class="button direction" id="backward">▾</div>
+        </div>
+        <div class="right">
+            <!--
+            <div class="button" id="bend_left">Bend_L</div>
+            <div class="button" id="bend_right">Bend_R</div>
+            <div class="button" id="shake_leg_left">ShakeLeg_L</div>
+            <div class="button" id="shake_leg_right">ShakeLeg_R</div>
+            -->
+            <div class="button" id="moonwalker_left">Moonwalker_L</div>
+            <div class="button" id="moonwalker_right">Moonwalker_R</div>
+            <div class="button" id="crusaito_left">Crusaito_L</div>
+            <div class="button" id="crusaito_right">Crusaito_R</div>
+            <div class="button" id="flapping_left">Flapping_L</div>
+            <div class="button" id="flapping_right">Flapping_R</div>
+            <div class="button" id="updown">Updown</div>
+            <div class="button" id="jitter">Jitter</div>
+        </div>
+    </div>
+
+    <script >
+
+        function buttonClick(c) {
+            fetch('/control', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ command: c })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
+        }
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', () => buttonClick(button.id));
+        });
+
+    </script>
+
+</body>
+</html>
