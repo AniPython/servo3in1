@@ -19,6 +19,7 @@ class Dog(Robot):
         self._servo[1].SetTrim(b)
 
     def home(self):
+        print("home")
         if self.getRestState() == False:  # -- Go to rest position only if necessary
             homes = [90, 90]  # -- All the servos at rest position
             self._moveServos(500, homes)  # -- Move the servos in half a second
@@ -26,15 +27,17 @@ class Dog(Robot):
             self.setRestState(True)
 
     def forward(self, steps=3, T=1000):
-        A = [30, 50]
+        print("forward")
+        A = [30, 30]
         O = [0, 0]
-        phase_diff = [0, 1]
+        phase_diff = [0, 1.57]
 
         self._execute(A, O, T, phase_diff, steps)
 
     def backward(self, steps=3, T=1000):
-        A = [30, 50]
+        print("backward")
+        A = [30, 30]
         O = [0, 0]
-        phase_diff = [0, -1]
+        phase_diff = [0, -1.57]
 
         self._execute(A, O, T, phase_diff, steps)
