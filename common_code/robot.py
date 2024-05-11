@@ -14,6 +14,7 @@ BIG = const(30)
 
 
 def DEG2RAD(g):
+    """角度转弧度"""
     return (g * math.pi) / 180
 
 

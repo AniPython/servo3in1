@@ -6,62 +6,26 @@ import math
 import time
 import machine
 
-try:
-    from esp32 import Servo as espServo
-    useServo = True
-except ImportError:
-    """This version of esp32 doesn't support Servo, use PWM instead"""
-
-    def espServo(_arg):
-        print("espServo not defined")
-        raise ImportError
-
-    useServo = False
-
 
 class Servo:
-    def __init__(self, freq=50, min_us=1000, max_us=2000, max_ang=180):
-        global useServo
-        self.min_us = min_us
-        self.max_us = max_us
+    def __init__(self, freq=50, max_ang=180):
         self.freq = freq
         self.max_ang = max_ang
         self.pin = None
-        if useServo:
-            self.servo = None
-        else:
-            self.pwm = None
+        self.pwm = None
         self._attached = False
 
     def attach(self, pin):
-        global useServo
         self.pin = machine.Pin(pin)
-        if useServo:
-            self.servo = espServo(self.pin)
-        else:
-            self.pwm = machine.PWM(self.pin, freq=self.freq)
+        self.pwm = machine.PWM(self.pin, freq=self.freq)
         self._attached = True
 
     def detach(self):
-        global useServo
-        if useServo:
-            self.servo.deinit()
-        else:
-            self.pwm.deinit()
+        self.pwm.deinit()
         self._attached = False
 
     def attached(self):
         return self._attached
-
-    def write_us(self, us):
-        """Set the signal to be ``us`` microseconds long. Zero disables it."""
-        global useServo
-        if useServo:
-            self.servo.duty(us)
-        else:
-            """PWM uses duty as a value from 0-1024"""
-            duty = int(us / (1000000 / self.freq / 1024))
-            self.pwm.duty(duty)
 
     def write(self, degrees):
         """Move to the specified angle in ``degrees``."""
@@ -70,16 +34,11 @@ class Servo:
             degrees += 360
         if degrees > 180:
             degrees = 180
-        total_range = self.max_us - self.min_us
-        us = self.min_us + total_range * degrees // self.max_ang
-        self.write_us(us)
+        duty = int(degrees * 102 / 180 + 26)
+        self.pwm.duty(duty)
 
     def __deinit__(self):
-        global useServo
-        if useServo:
-            self.servo.deinit()
-        else:
-            self.pwm.deinit()
+        self.pwm.deinit()
 
 
 class Oscillator:
@@ -87,7 +46,7 @@ class Oscillator:
         # Oscillators parameters
         self._A = 0  # Amplitude (degrees)
         self._O = 0  # Offset (degrees)
-        self._T = 0  # Period (miliseconds)
+        self._T = 0  # Period (ms)
         self._phase0 = 0.0  # Phase (radians)
 
         # Internal variables
@@ -129,15 +88,14 @@ class Oscillator:
 
     # -- Detach an oscillator from his servo
     def detach(self):
-
         if self._servo.attached():  # -- If the oscillator is attached,
             self._servo.detach()
 
-    # --  Set the oscillator Phase (radians)
+    # --  Set the oscillator Amplitude (degrees)
     def SetA(self, A):
         self._A = A
 
-    # -- Set the oscillator Phase (radians)
+    # -- Set the oscillator Offset (degrees)
     def SetO(self, O):
         self._O = O
 
@@ -203,3 +161,26 @@ class Oscillator:
             # -- It is always increased, when the oscillator is stop
             # -- so that the coordination is always kept
             self._phase = self._phase + self._inc
+
+
+if __name__ == '__main__':
+    # 振荡器
+    os = Oscillator()
+    os.attach(pin=25)
+
+    # (参考)正弦函数公式: y = A⋅sin(2πx/T + Ph) + O
+
+    # A（Amplitude）：振幅(角度 degrees -90~90)，它决定了舵机摆动的幅度。
+    os.SetA(A=20)
+
+    # O（Offset）：偏移量(角度 degrees -90~90)，y轴偏移值, 它可以用来设置舵机的初始位置。
+    os.SetO(O=10)
+
+    # T（Period）：周期(毫秒 ms)，振荡器一个完整周期的时间长度
+    os.SetT(T=1000)
+
+    # Ph（Phase）：相位(弧度 radians 0~2π)，x轴偏移值
+    os.SetPh(Ph=0)
+
+    while True:
+        os.refresh()
