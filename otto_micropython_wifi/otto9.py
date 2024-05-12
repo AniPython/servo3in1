@@ -26,7 +26,7 @@ class Otto9(Robot):
     def home(self):
         if self.getRestState() == False:  # -- Go to rest position only if necessary
             homes = [90, 90, 90, 90]  # -- All the servos at rest position
-            self._moveServos(500, homes)  # -- Move the servos in half a second
+            self.moveServos(500, homes)  # -- Move the servos in half a second
             self.detachServos()
             self.setRestState(True)
 
@@ -44,7 +44,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, DEG2RAD(dir * -90), DEG2RAD(dir * -90)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
 
     # -- Otto movement: Jump
@@ -54,8 +54,8 @@ class Otto9(Robot):
     def jump(self, steps=2, T=300):
         up = [90, 90, 160, 20]
         down = [90, 90, 90, 90]
-        self._moveServos(T, up)
-        self._moveServos(T, down)
+        self.moveServos(T, up)
+        self.moveServos(T, down)
 
     # -- Otto gait: Walking  (forward or backward)
     # --  Parameters:
@@ -76,7 +76,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, DEG2RAD(dir * -90), DEG2RAD(dir * -90)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def forward(self, steps=3, T=1000, dir=FORWARD):
         self.walk(steps=steps, T=T, dir=dir)
@@ -108,7 +108,7 @@ class Otto9(Robot):
             A[1] = 40
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def turn_left(self, steps=2, T=1000, dir=LEFT):
         self.turn(steps=steps, T=T, dir=dir)
@@ -143,10 +143,10 @@ class Otto9(Robot):
         # -- Bend movement
         i = 0
         while i < steps:
-            self._moveServos(T2 / 2, bend1)
-            self._moveServos(T2 / 2, bend2)
+            self.moveServos(T2 / 2, bend1)
+            self.moveServos(T2 / 2, bend2)
             utime.sleep_ms(int((T * 0.8)))
-            self._moveServos(500, homes)
+            self.moveServos(500, homes)
             i += 1
 
     def bend_left(self, steps=1, T=1000, dir=LEFT):
@@ -190,15 +190,15 @@ class Otto9(Robot):
         j = 0
         while j < steps:
             # -- Bend movement
-            self._moveServos(T2 / 2, shake_leg1)
-            self._moveServos(T2 / 2, shake_leg2)
+            self.moveServos(T2 / 2, shake_leg1)
+            self.moveServos(T2 / 2, shake_leg2)
 
             # -- Shake movement
             i = 0
             while i < numberLegMoves:
-                self._moveServos(T / (2 * numberLegMoves), shake_leg3)
-                self._moveServos(T / (2 * numberLegMoves), shake_leg2)
-                self._moveServos(500, homes)  # -- Return to home position
+                self.moveServos(T / (2 * numberLegMoves), shake_leg3)
+                self.moveServos(T / (2 * numberLegMoves), shake_leg2)
+                self.moveServos(500, homes)  # -- Return to home position
                 i += 1
             j += 1
         utime.sleep_ms(T)
@@ -225,7 +225,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, DEG2RAD(-90), DEG2RAD(90)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     # -- Otto movement: swinging side to side
     # --  Parameters:
@@ -240,7 +240,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, DEG2RAD(0), DEG2RAD(0)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     # -- Otto movement: swinging side to side without touching the floor with the heel
     # --  Parameters:
@@ -255,7 +255,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, 0, 0]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     # -- Otto gait: Jitter
     # --  Parameters:
@@ -274,7 +274,7 @@ class Otto9(Robot):
         phase_diff = [DEG2RAD(-90), DEG2RAD(90), 0, 0]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     # -- Otto gait: Ascending & turn (Jitter while up&down)
     # --  Parameters:
@@ -292,7 +292,7 @@ class Otto9(Robot):
         phase_diff = [DEG2RAD(-90), DEG2RAD(90), DEG2RAD(-90), DEG2RAD(90)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     # -- Otto gait: Moonwalker. Otto moves like Michael Jackson
     # --  Parameters:
@@ -316,7 +316,7 @@ class Otto9(Robot):
         phase_diff = [0, 0, DEG2RAD(phi), DEG2RAD(-60 * dir + phi)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def moonwalker_left(self, steps=3, T=1000, h=45, dir=LEFT):
         self.moonwalker(steps=steps, T=T, h=h, dir=dir)
@@ -336,7 +336,7 @@ class Otto9(Robot):
         phase_diff = [90, 90, DEG2RAD(0), DEG2RAD(-60 * dir)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def crusaito_left(self, steps=2, T=1000, h=35, dir=LEFT):
         self.crusaito(steps=steps, T=T, h=h, dir=dir)
@@ -356,7 +356,7 @@ class Otto9(Robot):
         phase_diff = [DEG2RAD(0), DEG2RAD(180), DEG2RAD(-90 * dir), DEG2RAD(90 * dir)]
 
         # -- Let's oscillate the servos!
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def flapping_left(self, steps=2, T=1000, h=35, dir=LEFT):
         self.flapping(steps=steps, T=T, h=h, dir=dir)

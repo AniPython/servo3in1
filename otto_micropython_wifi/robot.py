@@ -1,4 +1,3 @@
-# -- OttoDIY Python Project, 2020
 
 from micropython import const
 import oscillator, utime, math
@@ -53,8 +52,7 @@ class Robot:
     def setRestState(self, state):
         self._isResting = state
 
-
-    def _moveServos(self, T, servo_target):
+    def moveServos(self, T, servo_target):
         self.attachServos()
         if self.getRestState():
             self.setRestState(False)
@@ -90,7 +88,7 @@ class Robot:
                 self._servo[i].refresh()
             x = float(utime.ticks_ms())
 
-    def _execute(self, A, O, T, phase_diff, steps=1.0):
+    def execute(self, A, O, T, phase_diff, steps=1.0):
         self.attachServos()
         if self.getRestState() == True:
             self.setRestState(False)

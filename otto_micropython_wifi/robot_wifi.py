@@ -1,3 +1,4 @@
+
 import machine
 import usocket as socket
 import network
@@ -54,22 +55,16 @@ class RobotWifi:
                 method()
                 return 'OK'
             except Exception as e:
-                print("Error executing command:", str(e))
-                return 'Error executing command'
+                err = "Error executing command:" + str(e)
+                print(err)
+                return err
 
     def handle_get_request(self):
         response_headers = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n'
         return response_headers + self.html
 
     def handle_request(self, client_socket):
-
-        request = b''
-        while b'\r\n\r\n' not in request:
-            chunk = client_socket.recv(1024)
-            if not chunk:
-                break
-            request += chunk
-
+        request = client_socket.recv(1024)
         request_str = request.decode('utf-8')
         request_lines = request_str.split('\r\n')
         method, path, _ = request_lines[0].split()
