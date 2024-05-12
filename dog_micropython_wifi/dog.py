@@ -22,7 +22,7 @@ class Dog(Robot):
         print("home")
         if self.getRestState() == False:  # -- Go to rest position only if necessary
             homes = [90, 90]  # -- All the servos at rest position
-            self._moveServos(500, homes)  # -- Move the servos in half a second
+            self.moveServos(500, homes)  # -- Move the servos in half a second
             self.detachServos()
             self.setRestState(True)
 
@@ -32,7 +32,7 @@ class Dog(Robot):
         O = [0, 0]
         phase_diff = [0, 1.57]
 
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)
 
     def backward(self, steps=3, T=1000):
         print("backward")
@@ -40,4 +40,4 @@ class Dog(Robot):
         O = [0, 0]
         phase_diff = [0, -1.57]
 
-        self._execute(A, O, T, phase_diff, steps)
+        self.execute(A, O, T, phase_diff, steps)

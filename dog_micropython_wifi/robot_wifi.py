@@ -1,4 +1,4 @@
-import sys
+
 import machine
 import usocket as socket
 import network
@@ -64,14 +64,7 @@ class RobotWifi:
         return response_headers + self.html
 
     def handle_request(self, client_socket):
-
-        request = b''
-        while b'\r\n\r\n' not in request:
-            chunk = client_socket.recv(1024)
-            if not chunk:
-                break
-            request += chunk
-
+        request = client_socket.recv(1024)
         request_str = request.decode('utf-8')
         request_lines = request_str.split('\r\n')
         method, path, _ = request_lines[0].split()
