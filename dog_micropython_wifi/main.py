@@ -13,6 +13,6 @@ robot_wifi = RobotWifi(robot=robot)
 # robot_wifi.create_connect_ap(essid="OttoDiyWifi", password="88889999", ifconfig=ifconfig)
 
 # 路由模式
-robot_wifi.create_connect_route(ssid='Yi', password='88889999', ifconfig=ifconfig)
+robot_wifi.create_connect_route(ssid='Yi', password='88889999', ifconfig=None)
 
 robot_wifi.create_server()

@@ -1,4 +1,3 @@
-# -- OttoDIY Python Project, 2020
 
 from robot import Robot
 
