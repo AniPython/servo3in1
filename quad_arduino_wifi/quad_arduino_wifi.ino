@@ -209,7 +209,10 @@ void setup(void) {
 
 
   delay(10);
-  robot.init(12, 16, 25, 18, 13, 17, 26, 19);
+  robot.init(
+    12, 16, 25, 18, 13, 17, 26, 19,  // set servo pins
+    0, 0, 0, 0, 0, 0, 0, 0           // set servo trims
+  );
   robot.home();
  
 }

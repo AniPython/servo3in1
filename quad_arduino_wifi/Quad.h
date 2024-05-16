@@ -10,7 +10,8 @@
 class Quad
 {
 public:
-    void init(int FRH, int FLH, int FRL, int FLL, int BRH, int BLH, int BRL, int BLL);
+    void init(int FRH, int FLH, int FRL, int FLL, int BRH, int BLH, int BRL, int BLL,
+              int trim0, int trim1, int trim2, int trim3, int trim4, int trim5, int trim6, int trim7);
     void args_test();
     void home();
     void zero();

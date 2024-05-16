@@ -1,10 +1,11 @@
 #include "Quad.h"
 
 
-void Quad::init(int FLH, int FRH, int FLL, int FRL, int BLH, int BRH, int BLL, int BRL) {
-  // Map between servos and board pins
-
-    // Kame
+void Quad::init(
+    int FLH, int FRH, int FLL, int FRL, int BLH, int BRH, int BLL, int BRL,
+    int trim0, int trim1, int trim2, int trim3, int trim4, int trim5, int trim6, int trim7
+) {
+    // Map between servos and board pins
     board_pins[0] = FLH; // front left  hip (inner)
     board_pins[1] = FRH; // front right hip (inner)
     board_pins[2] = FLL; // front left  leg (outer)
@@ -14,24 +15,14 @@ void Quad::init(int FLH, int FRH, int FLL, int FRL, int BLH, int BRH, int BLL, i
     board_pins[6] = BLL; // back  left  leg (outer)
     board_pins[7] = BRL; // back  right leg (outer)
 
-    // Otto
-    // board_pins[1] = FLH; // front left  hip (inner)
-    // board_pins[0] = FRH; // front right hip (inner)
-    // board_pins[3] = FLL; // front left  leg (outer)
-    // board_pins[2] = FRL; // front right leg (outer)
-    // board_pins[5] = BLH; // back  left  hip (inner)
-    // board_pins[4] = BRH; // back  right hip (inner)
-    // board_pins[7] = BLL; // back  left  leg (outer)
-    // board_pins[6] = BRL; // back  right leg (outer)
-
-    trim[0] = 0;
-    trim[1] = 0;
-    trim[2] = 0;
-    trim[3] = 0;
-    trim[4] = 0;
-    trim[5] = 0;
-    trim[6] = 0;
-    trim[7] = 0;
+    trim[0] = trim0;
+    trim[1] = trim1;
+    trim[2] = trim2;
+    trim[3] = trim3;
+    trim[4] = trim4;
+    trim[5] = trim5;
+    trim[6] = trim6;
+    trim[7] = trim7;
     
   // Set reverse movement
   for (int i = 0; i < 8; i++) reverse[i] = false;
