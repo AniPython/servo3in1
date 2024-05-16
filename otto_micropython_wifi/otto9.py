@@ -37,9 +37,8 @@ class Otto9(Robot):
         # --      -90 : Walk forward
         # --       90 : Walk backward
         # -- Feet servos also have the same offset (for tiptoe a little bit)
-        # A = [30, 30, 20, 20]
-        A = [35, 35, 30, 30]
-        O = [0, 0, 4, -4]
+        A = [30, 30, 20, 20]
+        O = [0, 0, 0, 0]
         phase_diff = [0, 0, DEG2RAD(dir * -90), DEG2RAD(dir * -90)]
 
         # -- Let's oscillate the servos!
@@ -69,9 +68,8 @@ class Otto9(Robot):
         # --      -90 : Walk forward
         # --       90 : Walk backward
         # -- Feet servos also have the same offset (for tiptoe a little bit)
-        # A = [30, 30, 20, 20]
-        A = [35, 35, 30, 30]
-        O = [0, 0, 4, -4]
+        A = [30, 30, 30, 30]
+        O = [0, 0, 0, 0]
         phase_diff = [0, 0, DEG2RAD(dir * -90), DEG2RAD(dir * -90)]
 
         # -- Let's oscillate the servos!
@@ -93,18 +91,15 @@ class Otto9(Robot):
         # -- The Amplitudes of the hip's oscillators are not igual
         # -- When the right hip servo amplitude is higher, steps taken by
         # -- the right leg are bigger than the left. So, robot describes an left arc
-        # A = [30, 30, 20, 20]
-        A = [35, 35, 30, 30]
-        O = [0, 0, 4, -4]
+        A = [30, 30, 30, 30]
+        O = [0, 0, 0, 0]
         phase_diff = [0, 0, DEG2RAD(-90), DEG2RAD(-90)]
         if dir == LEFT:
-            # A[0] = 30  # -- Left hip servo
-            A[0] = 40  # -- Left hip servo
+            A[0] = 30  # -- Left hip servo
             A[1] = 10  # -- Right hip servo
         else:
             A[0] = 10
-            # A[1] = 30
-            A[1] = 40
+            A[1] = 30
 
         # -- Let's oscillate the servos!
         self.execute(A, O, T, phase_diff, steps)
@@ -214,7 +209,7 @@ class Otto9(Robot):
     # --    * T: Period
     # --    * h: Jump height: SMALL / MEDIUM / BIG
     # --              (or a number in degrees 0 - 90)
-    def updown(self, steps=2, T=1500, h=35):
+    def updown(self, steps=2, T=1500, h=30):
         # -- Both feet are 180 degrees out of phase
         # -- Feet amplitude and offset are the same
         # -- Initial phase for the right foot is -90, that it starts
@@ -231,7 +226,7 @@ class Otto9(Robot):
     # --     steps: Number of steps
     # --     T : Period
     # --     h : Amount of swing (from 0 to 50 aprox)
-    def swing(self, steps=2, T=1000, h=35):
+    def swing(self, steps=2, T=1000, h=30):
         # -- Both feets are in phase. The offset is half the amplitude
         # -- It causes the robot to swing from side to side
         A = [0, 0, h, h]
@@ -246,7 +241,7 @@ class Otto9(Robot):
     # --     steps: Number of steps
     # --     T : Period
     # --     h : Amount of swing (from 0 to 50 aprox)
-    def tiptoeSwing(self, steps=2, T=1000, h=35):
+    def tiptoeSwing(self, steps=2, T=1000, h=30):
         # -- Both feets are in phase. The offset is not half the amplitude in order to tiptoe
         # -- It causes the robot to swing from side to side
         A = [0, 0, h, h]
@@ -261,7 +256,7 @@ class Otto9(Robot):
     # --    steps: Number of jitters
     # --    T: Period of one jitter
     # --    h: height (Values between 5 - 25)
-    def jitter(self, steps=2, T=1000, h=35):
+    def jitter(self, steps=2, T=1000, h=30):
         # -- Both feet are 180 degrees out of phase
         # -- Feet amplitude and offset are the same
         # -- Initial phase for the right foot is -90, that it starts
